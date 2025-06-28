@@ -1,3 +1,10 @@
+<?php
+include 'koneksi.php';
+
+$hasil = mysqli_query($koneksi, "SELECT * FROM tbl_pegawai ORDER BY nama_pegawai ASC");
+$no = 1;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,38 +52,74 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Daftar Pegawai</h6>
+                        <a href="index.php?page=pegawai/add_data_pegawai" class="btn btn-primary btn-icon-split">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-plus"></i>
+                                </span>
+                                <span class="text">Tambah Data Pegawai</span>
+                            </a>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>No.</th>
-                                            <th>NIP</th>
-                                            <th>Nama Pegawai</th>
-                                            <th>Status Kontrak</th>
-                                            <th>Tanggal Awal Kontrak</th>
-                                            <th>Tanggal Akhir Kontrak</th>
-                                            <th>Email</th>
-                                            <th>No. Handphone</th>
-                                            <th>Alamat</th>
-                                            <th>Departemen</th>
+                                            <th class="text-center align-middle">No.</th>
+                                            <th class="text-center align-middle">NIP</th>
+                                            <th class="text-center align-middle">Nama Pegawai</th>
+                                            <th class="text-center align-middle">Email</th>
+                                            <th class="text-center align-middle">No. Handphone</th>
+                                            <th class="text-center align-middle">Alamat</th>
+                                            <th class="text-center align-middle">Tanggal Awal Kontrak</th>
+                                            <th class="text-center align-middle">Tanggal Akhir Kontrak</th>
+                                            <th class="text-center align-middle">Departemen</th>
+                                            <th class="text-center align-middle">Status Pegawai</th>
+                                            <th class="text-center align-middle">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php
+                                        if(mysqli_num_rows($hasil) > 0) {
+                                            while ($row = mysqli_fetch_array
+                                            ($hasil)) {
+                                        ?>
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td><?= $no++ ?></td>
+                                            <td><?= $row['nip'] ?></td>
+                                            <td><?= $row['nama_pegawai'] ?></td>
+                                            <td><?= $row['email'] ?></td>
+                                            <td><?= $row['no_hp'] ?></td>
+                                            <td><?= $row['alamat'] ?></td>
+                                            <td><?= $row['tanggal_kontrak_awal'] ?></td>
+                                            <td><?= $row['tanggal_kontrak_akhir'] ?></td>
+                                            <td><?= $row['departemen_id'] ?></td>
+                                            <td><?= $row['status'] ?></td>
+                                            <td class="text-center">
+                                                <a href="#" class="btn btn-warning btn-icon-split">
+                                                    <span class="icon text-white-50">
+                                                        <i class="fas fa-edit"></i>
+                                                    </span>
+                                                    <span class="text">Edit</span>
+                                                </a>
+                                                <a href="#" class="btn btn-danger btn-icon-split"
+                                                onclick="return confirm('Apakah Anda yakin ingin menghapus data <?= $row['nama_pegawai'] ?>?')">
+                                                    <span class="icon text-white-50">
+                                                        <i class="fas fa-trash"></i>
+                                                    </span>
+                                                    <span class="text">Hapus</span>
+                                                </a>
+                                            </td>
                                         </tr>
+                                            <?php
+                                                    }
+                                                } else {
+                                            ?>
+                                            <tr>
+                                                <td colspan="8">Tidak Ada Data Mahasiswa</td>
+                                            </tr>
+                                            <?php
+                                                }
+                                            ?>
                                     </tbody>
                                 </table>
                             </div>
