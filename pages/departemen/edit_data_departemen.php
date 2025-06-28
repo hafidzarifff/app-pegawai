@@ -1,8 +1,9 @@
 <?php
-include 'koneksi.php';
+    include 'koneksi.php';
 
-$hasil = mysqli_query($koneksi, "SELECT * FROM tbl_departemen ORDER BY nama_departemen ASC");
-$no = 1;
+    $id = $_GET['id'];
+
+    $query = mysqli_query($koneksi, "SELECT * FROM tbl_departemen WHERE id = '$id'") or die(mysqli_error())
 ?>
 
 <!DOCTYPE html>
@@ -53,16 +54,24 @@ $no = 1;
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <form method="POST" action="index.php?page=departemen/proses_add_data_departemen">
+                                <?php
+                                    while($data = mysqli_fetch_array($query)){
+                                ?>
+                                <form method="POST" action="index.php?page=departemen/proses_edit_data_departemen">
+                                    <input type="hidden" name="id" value="<?= $data['id'] ?>">
+
                                     <div class="mb-3">
-                                        <label for="exampleFormControlInput1" class="form-label">Nama Departemen</label>
-                                        <input type="text" class="form-control" id="exampleFormControlInput1" name="nama_departemen" id="nama_departemen" placeholder="Masukkan Nama Departemen">
+                                        <label for="nama_departemen" class="form-label">Nama Departemen</label>
+                                        <input type="text" class="form-control" id="nama_departemen" name="nama_departemen" value="<?php echo $data['nama_departemen']?>">
                                     </div>
 
-                                    <input class="btn btn-primary" type="submit" name="submit" value="Simpan Data">
+                                    <input class="btn btn-primary" type="submit" name="edit" value="Simpan Data">
 
                                     <a class="btn btn-danger ml-1" href="index.php?page=departemen/data_departemen">Batal</a>
                                 </form>
+                                <?php
+                                    }
+                                ?>
                             </div>
                         </div>
                     </div>

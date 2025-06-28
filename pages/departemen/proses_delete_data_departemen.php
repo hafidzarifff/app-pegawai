@@ -15,7 +15,7 @@
     }else{
         echo "
             <script type='text/javascript'>
-                alert('Gagal menghapus data mahasiswa');
+                alert('Gagal menghapus data departemen');
             </script>
         ";
     }

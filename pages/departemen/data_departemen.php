@@ -81,7 +81,7 @@ $no = 1;
                                             <td><?= $row['nama_departemen'] ?></td>
                                             <td></td>
                                             <td class="text-center">
-                                                <a href="#" class="btn btn-warning btn-icon-split">
+                                                <a href="index.php?page=departemen/edit_data_departemen&id=<?= $row['id'] ?>" class="btn btn-warning btn-icon-split">
                                                     <span class="icon text-white-50">
                                                         <i class="fas fa-edit"></i>
                                                     </span>
