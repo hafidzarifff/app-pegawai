@@ -55,8 +55,8 @@ $no = 1;
                             <div class="table-responsive">
                                 <form method="POST" action="index.php?page=departemen/proses_add_data_departemen">
                                     <div class="mb-3">
-                                        <label for="exampleFormControlInput1" class="form-label">Nama Departemen</label>
-                                        <input type="text" class="form-control" id="exampleFormControlInput1" name="nama_departemen" id="nama_departemen" placeholder="Masukkan Nama Departemen">
+                                        <label for="nama_departemen" class="form-label">Nama Departemen</label>
+                                        <input type="text" class="form-control" name="nama_departemen" id="nama_departemen" placeholder="Masukkan Nama Departemen">
                                     </div>
 
                                     <input class="btn btn-primary" type="submit" name="submit" value="Simpan Data">
