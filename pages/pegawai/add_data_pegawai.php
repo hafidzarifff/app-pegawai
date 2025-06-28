@@ -94,7 +94,8 @@ $no = 1;
                                         <input type="date" class="form-control" id="tanggal_kontrak_akhir" name="tanggal_kontrak_akhir" id="tanggal_kontrak_akhir" placeholder="Masukkan Tanggal Kontrak Akhir">
                                     </div>
 
-                                    <div class="mb-3">
+                                    
+                                    <!-- <div class="mb-3">
                                         <label class="form-label">Status Pegawai</label>
                                         <div class="dropdown">
                                             <button class="btn btn-info dropdown-toggle" type="button" id="statusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -104,10 +105,9 @@ $no = 1;
                                                 <li><a class="dropdown-item" href="#" onclick="selectStatus('Tetap')">Tetap</a></li>
                                                 <li><a class="dropdown-item" href="#" onclick="selectStatus('Kontrak')">Kontrak</a></li>
                                             </ul>
-                                            <!-- Sesuai nama kolom di database -->
                                             <input type="hidden" id="status" name="status">
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                     <input class="btn btn-primary" type="submit" name="submit" value="Simpan Data">
 
