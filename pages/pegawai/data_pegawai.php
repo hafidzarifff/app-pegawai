@@ -1,7 +1,12 @@
 <?php
 include 'koneksi.php';
 
-$hasil = mysqli_query($koneksi, "SELECT * FROM tbl_pegawai ORDER BY nama_pegawai ASC");
+$hasil = mysqli_query($koneksi, "
+    SELECT p.*, d.nama_departemen 
+    FROM tbl_pegawai p
+    JOIN tbl_departemen d ON p.departemen_id = d.id
+    ORDER BY p.nama_pegawai ASC
+");
 $no = 1;
 ?>
 
@@ -67,13 +72,13 @@ $no = 1;
                                             <th class="text-center align-middle">No.</th>
                                             <th class="text-center align-middle">NIP</th>
                                             <th class="text-center align-middle">Nama Pegawai</th>
+                                            <th class="text-center align-middle">Departemen</th>
+                                            <th class="text-center align-middle">Tipe Kontrak</th>
+                                            <th class="text-center align-middle">Tanggal Awal Kontrak</th>
+                                            <th class="text-center align-middle">Tanggal Akhir Kontrak</th>
                                             <th class="text-center align-middle">Email</th>
                                             <th class="text-center align-middle">No. Handphone</th>
                                             <th class="text-center align-middle">Alamat</th>
-                                            <th class="text-center align-middle">Tanggal Awal Kontrak</th>
-                                            <th class="text-center align-middle">Tanggal Akhir Kontrak</th>
-                                            <th class="text-center align-middle">Departemen</th>
-                                            <th class="text-center align-middle">Status Pegawai</th>
                                             <th class="text-center align-middle">Aksi</th>
                                         </tr>
                                     </thead>
@@ -87,22 +92,24 @@ $no = 1;
                                             <td><?= $no++ ?></td>
                                             <td><?= $row['nip'] ?></td>
                                             <td><?= $row['nama_pegawai'] ?></td>
+                                            <td><?= $row['nama_departemen'] ?></td>
+                                            <td><?= $row['tipe_kontrak'] ?></td>
+                                            <td><?= date('d-m-Y', strtotime($row['tanggal_kontrak_awal'])) ?></td>
+                                            <td>
+                                                <?= !empty($row['tanggal_kontrak_akhir']) ? date('d-m-Y', strtotime($row['tanggal_kontrak_akhir'])) : '-' ?>
+                                            </td>
                                             <td><?= $row['email'] ?></td>
                                             <td><?= $row['no_hp'] ?></td>
                                             <td><?= $row['alamat'] ?></td>
-                                            <td><?= $row['tanggal_kontrak_awal'] ?></td>
-                                            <td><?= $row['tanggal_kontrak_akhir'] ?></td>
-                                            <td><?= $row['departemen_id'] ?></td>
-                                            <td><?= $row['status'] ?></td>
                                             <td class="text-center">
-                                                <a href="#" class="btn btn-warning btn-icon-split">
+                                                <a href="index.php?page=pegawai/edit_data_pegawai&id=<?= $row['id'] ?>" class="btn btn-warning btn-icon-split mb-1">
                                                     <span class="icon text-white-50">
                                                         <i class="fas fa-edit"></i>
                                                     </span>
                                                     <span class="text">Edit</span>
                                                 </a>
-                                                <a href="#" class="btn btn-danger btn-icon-split"
-                                                onclick="return confirm('Apakah Anda yakin ingin menghapus data <?= $row['nama_pegawai'] ?>?')">
+                                                <a href="index.php?page=pegawai/proses_delete_data_pegawai&id=<?= $row['id'] ?>" class="btn btn-danger btn-icon-split"
+                                                onclick="return confirm('Apakah Anda yakin ingin menghapus pegawai <?= $row['nama_pegawai'] ?>?')">
                                                     <span class="icon text-white-50">
                                                         <i class="fas fa-trash"></i>
                                                     </span>
@@ -115,7 +122,7 @@ $no = 1;
                                                 } else {
                                             ?>
                                             <tr>
-                                                <td colspan="8">Tidak Ada Data Mahasiswa</td>
+                                                <td colspan="8">Tidak Ada Data Pegawai</td>
                                             </tr>
                                             <?php
                                                 }
