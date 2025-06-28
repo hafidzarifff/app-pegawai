@@ -1,3 +1,10 @@
+<?php
+include 'koneksi.php';
+
+$hasil = mysqli_query($koneksi, "SELECT * FROM tbl_departemen ORDER BY nama_departemen ASC");
+$no = 1;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -54,15 +61,46 @@
                                         <tr>
                                             <th>No.</th>
                                             <th>Nama Departemen</th>
-                                            <th>Jumlah Karyawan</th>
+                                            <th class="text-right">Jumlah Karyawan</th>
+                                            <th class="text-center">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php
+                                            if(mysqli_num_rows($hasil) > 0) {
+                                                while ($row = mysqli_fetch_array
+                                                ($hasil)) {
+                                        ?>
                                         <tr>
+                                            <td><?= $no++ ?></td>
+                                            <td><?= $row['nama_departemen'] ?></td>
                                             <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td class="text-center">
+                                                <a href="#" class="btn btn-warning btn-icon-split">
+                                                    <span class="icon text-white-50">
+                                                        <i class="fas fa-edit"></i>
+                                                    </span>
+                                                    <span class="text">Edit</span>
+                                                </a>
+                                                <a href="#" class="btn btn-danger btn-icon-split"
+                                                onclick="return confirm('Apakah Anda yakin ingin menghapus data <?= $row['nama_departemen'] ?>?')">
+                                                    <span class="icon text-white-50">
+                                                        <i class="fas fa-trash"></i>
+                                                    </span>
+                                                    <span class="text">Hapus</span>
+                                                </a>
+                                            </td>
                                         </tr>
+                                        <?php
+                                                }
+                                            } else {
+                                        ?>
+                                        <tr>
+                                            <td colspan="8">Tidak Ada Data Departemen</td>
+                                        </tr>
+                                        <?php
+                                            }
+                                        ?>
                                     </tbody>
                                 </table>
                             </div>
