@@ -52,7 +52,12 @@ $no = 1;
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Daftar Departemen</h6>
+                            <a href="index.php?page=departemen/add_data_departemen" class="btn btn-primary btn-icon-split">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-plus"></i>
+                                </span>
+                                <span class="text">Tambah Data Departemen</span>
+                            </a>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -82,8 +87,8 @@ $no = 1;
                                                     </span>
                                                     <span class="text">Edit</span>
                                                 </a>
-                                                <a href="#" class="btn btn-danger btn-icon-split"
-                                                onclick="return confirm('Apakah Anda yakin ingin menghapus data <?= $row['nama_departemen'] ?>?')">
+                                                <a href="index.php?page=departemen/proses_delete_data_departemen&id=<?= $row['id'] ?>" class="btn btn-danger btn-icon-split"
+                                                onclick="return confirm('Apakah Anda yakin ingin menghapus departemen <?= $row['nama_departemen'] ?>?')">
                                                     <span class="icon text-white-50">
                                                         <i class="fas fa-trash"></i>
                                                     </span>
