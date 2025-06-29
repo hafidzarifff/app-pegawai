@@ -1,3 +1,62 @@
+<?php
+    include 'koneksi.php';
+
+    // Jumlah Pegawai Aktif
+    $queryAktif = mysqli_query($koneksi, "SELECT COUNT(*) as total FROM tbl_pegawai WHERE tanggal_kontrak_akhir IS NULL OR tanggal_kontrak_akhir >= CURDATE()");
+    $dataAktif = mysqli_fetch_assoc($queryAktif);
+
+    // Jumlah Departemen
+    $queryDept = mysqli_query($koneksi, "SELECT COUNT(*) as total FROM tbl_departemen");
+    $dataDept = mysqli_fetch_assoc($queryDept);
+
+    // Kontrak Akan Berakhir (dalam 30 hari ke depan)
+    $queryAkanBerakhir = mysqli_query($koneksi, "
+        SELECT COUNT(*) as total FROM tbl_pegawai 
+        WHERE tanggal_kontrak_akhir IS NOT NULL 
+        AND tanggal_kontrak_akhir BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY)
+    ");
+    $dataAkanBerakhir = mysqli_fetch_assoc($queryAkanBerakhir);
+
+    // Kontrak Sudah Berakhir
+    $queryBerakhir = mysqli_query($koneksi, "
+        SELECT COUNT(*) as total FROM tbl_pegawai 
+        WHERE tanggal_kontrak_akhir IS NOT NULL 
+        AND tanggal_kontrak_akhir < CURDATE()
+    ");
+    $dataBerakhir = mysqli_fetch_assoc($queryBerakhir);
+
+    // Query untuk mendapatkan jumlah peningkatan karyawan per tahun
+    $queryPeningkatan = "SELECT YEAR(tanggal_kontrak_awal) AS tahun, COUNT(*) AS jumlah 
+          FROM tbl_pegawai 
+          GROUP BY YEAR(tanggal_kontrak_awal) 
+          ORDER BY tahun ASC";
+
+    $hasilPeningkatan = mysqli_query($koneksi, $queryPeningkatan);
+
+    $tahuPeningkatann = [];
+    $jumlahPeningkatan = [];
+
+    while ($row = mysqli_fetch_assoc($hasilPeningkatan)) {
+        $tahunPeningkatan[] = $row['tahun'];
+        $jumlahPeningkatan[] = $row['jumlah'];
+    }
+
+    // Query untuk mendapatkan jumlah pegawai per departemen
+    $queryDeptPegawai = "SELECT d.nama_departemen, COUNT(p.id) AS jumlah 
+            FROM tbl_pegawai p 
+            JOIN tbl_departemen d ON p.departemen_id = d.id 
+            GROUP BY d.nama_departemen";
+
+    $hasilDeptPegawai = mysqli_query($koneksi, $queryDeptPegawai);
+
+    $departemenDeptPegawai = [];
+    $jumlahDeptPegawai = [];
+
+    while ($row = mysqli_fetch_assoc($hasilDeptPegawai)) {
+        $departemenDeptPegawai[] = $row['nama_departemen'];
+        $jumlahDeptPegawai[] = $row['jumlah'];
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -52,7 +111,7 @@
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Jumlah Pegawai Aktif
                                             </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">20</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $dataAktif['total'] ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-users fa-2x text-gray-300"></i>
@@ -70,7 +129,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Jumlah Departemen</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">5</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $dataDept['total'] ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-building fa-2x text-gray-300"></i>
@@ -91,7 +150,7 @@
                                             </div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">5</div>
+                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?= $dataAkanBerakhir['total'] ?></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -112,7 +171,7 @@
                                             <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                 Kontrak Pegawai Berakhir
                                             </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">3</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $dataBerakhir['total'] ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-user-times fa-2x text-gray-300"></i>
@@ -125,11 +184,11 @@
 
                     <!-- Content Row -->
 
-                    <div class="row">
+                    <div class="row mb-5">
 
                         <!-- Area Chart -->
                         <div class="col-xl-8 col-lg-7">
-                            <div class="card shadow mb-4">
+                            <div class="card shadow mb-4 h-100">
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -137,37 +196,24 @@
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    <div class="chart-area">
-                                        <canvas id="myAreaChart"></canvas>
-                                    </div>
+                                    <canvas id="myAreaChart">
+                                    </canvas>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Pie Chart -->
                         <div class="col-xl-4 col-lg-5">
-                            <div class="card shadow mb-4">
+                            <div class="card shadow mb-4 h-100">
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Karyawan Tiap Departemen</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Pegawai Tiap Departemen</h6>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    <div class="chart-pie pt-4 pb-2">
-                                        <canvas id="myPieChart"></canvas>
-                                    </div>
-                                    <div class="mt-4 text-center small">
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Direct
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> Social
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Referral
-                                        </span>
-                                    </div>
+                                    <canvas id="myPieChart">
+                                    </canvas>
                                 </div>
                             </div>
                         </div>
@@ -194,12 +240,85 @@
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
 
-    <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
+    <!-- Peningkatan Jumlah Karyawan -->
+    <script>
+        // Ambil data dari PHP ke JavaScript
+        const tahun = <?= json_encode($tahunPeningkatan); ?>;
+        const jumlah = <?= json_encode($jumlahPeningkatan); ?>;
+
+        const ctx = document.getElementById('myAreaChart').getContext('2d');
+        const myAreaChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: tahun,
+                datasets: [{
+                    label: 'Jumlah Pegawai',
+                    data: jumlah,
+                    backgroundColor: 'rgba(78, 114, 223, 0.1)',
+                    borderColor: 'rgba(78, 115, 223, 1)',
+                    borderWidth: 3,
+                    pointRadius: 3,
+                    pointBackgroundColor: 'rgba(78, 115, 223, 1)',
+                    pointBorderColor: 'rgba(78, 115, 223, 1)',
+                    fill: true,
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Jumlah Pegawai'
+                        },
+                        ticks: {
+                            precision: 0
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Tahun'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+    <script>
+        const departemen = <?= json_encode($departemenDeptPegawai); ?>;
+        const jumlahDepartemen = <?= json_encode($jumlahDeptPegawai); ?>;
+
+        const ctxPie = document.getElementById('myPieChart').getContext('2d');
+        const myPieChart = new Chart(ctxPie, {
+            type: 'pie',
+            data: {
+                labels: departemen,
+                datasets: [{
+                    data: jumlahDepartemen,
+                    backgroundColor: [
+                        'rgba(78, 115, 223, 0.5)',
+                        'rgba(28, 200, 138, 0.5)',
+                        'rgba(255, 99, 132, 0.5)',
+                        'rgba(255, 205, 86, 0.5)',
+                        'rgba(54, 162, 235, 0.5)'
+                    ],
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    }
+                }
+            }
+        });
+    </script>
 
 </body>
 

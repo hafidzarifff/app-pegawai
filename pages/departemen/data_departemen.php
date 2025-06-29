@@ -1,8 +1,13 @@
 <?php
-include 'koneksi.php';
+    include 'koneksi.php';
 
-$hasil = mysqli_query($koneksi, "SELECT * FROM tbl_departemen ORDER BY nama_departemen ASC");
-$no = 1;
+    $hasil = mysqli_query($koneksi, "
+        SELECT d.id, d.nama_departemen, COUNT(p.id) AS jumlah_pegawai
+        FROM tbl_departemen d
+        LEFT JOIN tbl_pegawai p ON p.departemen_id = d.id
+        GROUP BY d.id, d.nama_departemen
+    ");
+    $no = 1;
 ?>
 
 <!DOCTYPE html>
@@ -66,7 +71,7 @@ $no = 1;
                                         <tr>
                                             <th>No.</th>
                                             <th>Nama Departemen</th>
-                                            <th class="text-right">Jumlah Karyawan</th>
+                                            <th class="text-right">Jumlah Pegawai</th>
                                             <th class="text-center">Aksi</th>
                                         </tr>
                                     </thead>
@@ -79,7 +84,7 @@ $no = 1;
                                         <tr>
                                             <td><?= $no++ ?></td>
                                             <td><?= $row['nama_departemen'] ?></td>
-                                            <td></td>
+                                            <td><?= $row['jumlah_pegawai'] ?></td>
                                             <td class="text-center">
                                                 <a href="index.php?page=departemen/edit_data_departemen&id=<?= $row['id'] ?>" class="btn btn-warning btn-icon-split">
                                                     <span class="icon text-white-50">

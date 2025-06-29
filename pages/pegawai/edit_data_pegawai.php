@@ -56,10 +56,9 @@ $hasil_departemen = mysqli_query($koneksi, "SELECT * FROM tbl_departemen ORDER B
                 <div class="col-md-6">
                     <label for="departemen_id">Departemen</label>
                     <select class="form-control" id="departemen_id" name="departemen_id">
-                        <option>-- Pilih Departemen --</option>
-                        <?php while ($dep = mysqli_fetch_assoc($hasil_departemen)) : ?>
-                            <option value="<?= $dep['id'] ?>" <?= ($dep['id'] == $row['departemen_id']) ? 'selected' : '' ?>>
-                                <?= $dep['nama_departemen'] ?>
+                        <?php while ($dept = mysqli_fetch_assoc($hasil_departemen)) : ?>
+                            <option value="<?= $dept['id'] ?>" <?= ($dept['id'] == $row['departemen_id']) ? 'selected' : '' ?>>
+                                <?= $dept['nama_departemen'] ?>
                             </option>
                         <?php endwhile; ?>
                     </select>
@@ -68,7 +67,6 @@ $hasil_departemen = mysqli_query($koneksi, "SELECT * FROM tbl_departemen ORDER B
                 <div class="mb-4 col-md-4">
                     <label for="tipe_kontrak">Tipe Kontrak</label>
                     <select class="form-control" id="tipe_kontrak" name="tipe_kontrak">
-                        <option>-- Pilih Tipe Kontrak --</option>
                         <option value="Tetap" <?= ($row['tipe_kontrak'] == 'Tetap') ? 'selected' : '' ?>>Tetap</option>
                         <option value="Kontrak" <?= ($row['tipe_kontrak'] == 'Kontrak') ? 'selected' : '' ?>>Kontrak</option>
                     </select>

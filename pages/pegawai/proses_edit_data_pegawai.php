@@ -54,12 +54,7 @@ if (isset($_POST['edit'])) {
         ";
         exit;
     } else {
-        echo "
-            <script>
-                alert('Gagal memperbarui data pegawai.');
-                window.history.back();
-            </script>
-        ";
+        echo "Error: " . mysqli_error($koneksi);
         exit;
     }
 }
