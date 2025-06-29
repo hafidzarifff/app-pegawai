@@ -1,5 +1,5 @@
 <?php
-include 'koneksi.php';
+    include 'koneksi.php';
     $hasil_departemen = mysqli_query($koneksi, "SELECT * FROM tbl_departemen ORDER BY nama_departemen ASC");
 ?>
 

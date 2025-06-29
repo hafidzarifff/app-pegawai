@@ -143,7 +143,7 @@
 
                         if (!empty($_GET['page'])) {
                             $page = $_GET['page'];
-                            $safe_page = str_replace(['..', './', '//'], '', $page); // Keamanan dasar
+                            $safe_page = str_replace(['..', './', '//'], '', $page);
                             $file_path = $pages_dir . '/' . $safe_page . '.php';
 
                             if (file_exists($file_path)) {

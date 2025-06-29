@@ -1,13 +1,13 @@
 <?php
-include 'koneksi.php';
+    include 'koneksi.php';
 
-$hasil = mysqli_query($koneksi, "
-    SELECT p.*, d.nama_departemen 
-    FROM tbl_pegawai p
-    JOIN tbl_departemen d ON p.departemen_id = d.id
-    ORDER BY p.nip ASC
-");
-$no = 1;
+    $hasil = mysqli_query($koneksi, "
+        SELECT p.*, d.nama_departemen 
+        FROM tbl_pegawai p
+        JOIN tbl_departemen d ON p.departemen_id = d.id
+        ORDER BY p.nip ASC
+    ");
+    $no = 1;
 ?>
 
 <!DOCTYPE html>

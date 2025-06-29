@@ -1,25 +1,24 @@
 <?php
-include 'koneksi.php';
+    include 'koneksi.php';
 
-// Ambil ID pegawai dari URL
-$id = $_GET['id'] ?? null;
+    $id = $_GET['id'] ?? null;
 
-if (!$id) {
-    echo "ID pegawai tidak ditemukan.";
-    exit;
-}
+    if (!$id) {
+        echo "ID pegawai tidak ditemukan.";
+        exit;
+    }
 
-// Fetch data pegawai berdasarkan ID
-$query = mysqli_query($koneksi, "SELECT * FROM tbl_pegawai WHERE id = '$id'");
-$row = mysqli_fetch_assoc($query);
+    // Fetch data pegawai berdasarkan ID Pegawai
+    $query = mysqli_query($koneksi, "SELECT * FROM tbl_pegawai WHERE id = '$id'");
+    $row = mysqli_fetch_assoc($query);
 
-if (!$row) {
-    echo "Data pegawai tidak ditemukan.";
-    exit;
-}
+    if (!$row) {
+        echo "Data pegawai tidak ditemukan.";
+        exit;
+    }
 
-// Fetch data departemen
-$hasil_departemen = mysqli_query($koneksi, "SELECT * FROM tbl_departemen ORDER BY nama_departemen ASC");
+    // Fetch data departemen
+    $hasil_departemen = mysqli_query($koneksi, "SELECT * FROM tbl_departemen ORDER BY nama_departemen ASC");
 ?>
 
 <!DOCTYPE html>

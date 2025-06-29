@@ -242,7 +242,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- Peningkatan Jumlah Karyawan -->
+    <!-- JS Peningkatan Jumlah Karyawan -->
     <script>
         // Ambil data dari PHP ke JavaScript
         const tahun = <?= json_encode($tahunPeningkatan); ?>;
@@ -288,6 +288,7 @@
         });
     </script>
 
+    <!-- JS Jumlah Karyawan Tiap Departemen -->
     <script>
         const departemen = <?= json_encode($departemenDeptPegawai); ?>;
         const jumlahDepartemen = <?= json_encode($jumlahDeptPegawai); ?>;
