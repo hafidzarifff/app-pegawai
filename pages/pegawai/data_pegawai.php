@@ -89,11 +89,11 @@
                                             ($hasil)) {
                                         ?>
                                         <tr>
-                                            <td><?= $no++ ?></td>
-                                            <td><?= $row['nip'] ?></td>
+                                            <td class="text-center"><?= $no++ ?></td>
+                                            <td class="text-center"><?= $row['nip'] ?></td>
                                             <td><?= $row['nama_pegawai'] ?></td>
                                             <td><?= $row['nama_departemen'] ?></td>
-                                            <td><?= $row['tipe_kontrak'] ?></td>
+                                            <td class="text-center"><?= $row['tipe_kontrak'] ?></td>
                                             <td><?= date('d-m-Y', strtotime($row['tanggal_kontrak_awal'])) ?></td>
                                             <td>
                                                 <?= !empty($row['tanggal_kontrak_akhir']) ? date('d-m-Y', strtotime($row['tanggal_kontrak_akhir'])) : '-' ?>

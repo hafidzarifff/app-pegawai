@@ -4,9 +4,12 @@
     $hasil = mysqli_query($koneksi, "
         SELECT d.id, d.nama_departemen, COUNT(p.id) AS jumlah_pegawai
         FROM tbl_departemen d
-        LEFT JOIN tbl_pegawai p ON p.departemen_id = d.id
+        LEFT JOIN tbl_pegawai p 
+            ON p.departemen_id = d.id 
+            AND (p.tanggal_kontrak_akhir IS NULL OR p.tanggal_kontrak_akhir >= CURDATE())
         GROUP BY d.id, d.nama_departemen
     ");
+
     $no = 1;
 ?>
 
@@ -69,7 +72,7 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>No.</th>
+                                            <th class="text-center">No.</th>
                                             <th>Nama Departemen</th>
                                             <th class="text-right">Jumlah Pegawai</th>
                                             <th class="text-center">Aksi</th>
@@ -82,9 +85,9 @@
                                                 ($hasil)) {
                                         ?>
                                         <tr>
-                                            <td><?= $no++ ?></td>
+                                            <td class="text-center"><?= $no++ ?></td>
                                             <td><?= $row['nama_departemen'] ?></td>
-                                            <td><?= $row['jumlah_pegawai'] ?></td>
+                                            <td class="text-right"><?= $row['jumlah_pegawai'] ?></td>
                                             <td class="text-center">
                                                 <a href="index.php?page=departemen/edit_data_departemen&id=<?= $row['id'] ?>" class="btn btn-warning btn-icon-split">
                                                     <span class="icon text-white-50">

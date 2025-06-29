@@ -42,10 +42,16 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="index.php">
+            <?php
+                // Ambil nama page dari URL
+                $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
+            ?>
+
+            <li class="nav-item <?= $page == 'dashboard' ? 'active' : '' ?>">
+                <a class="nav-link" href="index.php?page=dashboard">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
+                    <span>Dashboard</span>
+                </a>
             </li>
 
             <!-- Divider -->
@@ -56,15 +62,16 @@
                 Master Data
             </div>
 
+            
             <!-- Nav Item - Tables -->
-            <li class="nav-item">
+            <li class="nav-item <?= $page == 'pegawai/data_pegawai' ? 'active' : '' ?>">
                 <a class="nav-link" href="index.php?page=pegawai/data_pegawai">
                     <i class="fas fa-users"></i>
                     <span>Data Pegawai</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
-            <li class="nav-item">
+            <li class="nav-item <?= $page == 'departemen/data_departemen' ? 'active' : '' ?>">
                 <a class="nav-link" href="index.php?page=departemen/data_departemen">
                     <i class="fas fa-building"></i>
                     <span>Data Departemen</span></a>
