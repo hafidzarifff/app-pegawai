@@ -20,6 +20,7 @@
             if($edit) {
                 echo "
                     <script>
+                        alert('Berhasil memperbarui data departemen.');
                         window.location.href = 'index.php?page=departemen/data_departemen';
                     </script>
                 ";
@@ -27,9 +28,11 @@
             } else {
                 echo "
                     <script type='text/javascript'>
-                        alert('Gagal merubah data departemen');
+                        alert('Gagal merubah data departemen.');
+                        window.location.href = 'index.php?page=departemen/data_departemen';
                     </script>
                 ";
+                exit;
             }
         }
     }

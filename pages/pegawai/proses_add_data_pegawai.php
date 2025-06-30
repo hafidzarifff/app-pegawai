@@ -32,7 +32,13 @@
             echo "<script>window.location.href = 'index.php?page=pegawai/data_pegawai';</script>";
             exit;
         } else {
-            die("Query Error: " . mysqli_error($koneksi));
+            echo "
+                <script type='text/javascript'>
+                    alert('Gagal menyimpan data pegawai.');
+                    window.location.href = 'index.php?page=pegawai/data_pegawai';
+                </script>
+            ";
+            exit;
         }
     }
 ?>

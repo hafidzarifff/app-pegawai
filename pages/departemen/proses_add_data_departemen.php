@@ -27,9 +27,11 @@
             } else {
                 echo "
                     <script type='text/javascript'>
-                        alert('Gagal menyimpan data departemen');
+                        alert('Gagal menyimpan data departemen.');
+                        window.location.href = 'index.php?page=departemen/data_departemen';
                     </script>
                 ";
+                exit;
             }
         }
     }

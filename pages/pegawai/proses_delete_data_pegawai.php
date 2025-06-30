@@ -8,6 +8,7 @@
     if($queryDelete){
         echo "
             <script>
+                alert('Berhasil menghapus data pegawai.');
                 window.location.href = 'index.php?page=pegawai/data_pegawai';
             </script>
         ";
@@ -15,8 +16,10 @@
     }else{
         echo "
             <script type='text/javascript'>
-                alert('Gagal menghapus data pegawai');
+                alert('Gagal menghapus data pegawai.');
+                window.location.href = 'index.php?page=pegawai/data_pegawai';
             </script>
         ";
+        exit;
     }
 ?>

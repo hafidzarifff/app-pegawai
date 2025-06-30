@@ -48,13 +48,18 @@
         if ($result) {
             echo "
                 <script>
-                    alert('Data pegawai berhasil diperbarui.');
+                    alert('Berhasil memperbarui data pegawai.');
                     window.location.href = 'index.php?page=pegawai/data_pegawai';
                 </script>
             ";
             exit;
         } else {
-            echo "Error: " . mysqli_error($koneksi);
+            echo "
+                <script>
+                    alert('Gagal memperbarui data pegawai.');
+                    window.location.href = 'index.php?page=pegawai/data_pegawai';
+                </script>
+            ";
             exit;
         }
     }
